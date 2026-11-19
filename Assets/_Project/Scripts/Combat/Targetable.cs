@@ -11,6 +11,7 @@ namespace Project.Combat
         [SerializeField] private TargetType _type;
 
         private CharacterStats _stats;
+        private StatusEffectController _statusEffects;
         private bool _isTargetableOverride = true;
 
         public Vector3 Position => transform.position;
@@ -21,6 +22,7 @@ namespace Project.Combat
         private void Awake()
         {
             _stats = GetComponent<CharacterStats>();
+            _statusEffects = GetComponent<StatusEffectController>();
         }
 
         public void Initialize(Team team, TargetType type)
@@ -35,5 +37,11 @@ namespace Project.Combat
         public float GetStatValue(StatType statType) => _stats.GetValue(statType);
 
         public void TakeDamage(float amount, bool isCritical) => _stats.ApplyDamage(amount);
+
+        public void Heal(float amount) => _stats.Heal(amount);
+
+        public void ApplyStun(float duration) => _statusEffects?.ApplyStun(duration);
+
+        public void ApplySlow(float percent, float duration) => _statusEffects?.ApplySlow(percent, duration);
     }
 }

@@ -67,4 +67,22 @@ internal static class DamageCalculatorTests
         TestRunner.Assert(DamageCalculator.RollIsCritical(0.5f, 0.2f), "0.2 < 0.5 chance should crit");
         TestRunner.Assert(!DamageCalculator.RollIsCritical(0.5f, 0.8f), "0.8 >= 0.5 chance should not crit");
     }
+
+    public static void MagicDamage_NoResist_DealsFullDamage()
+    {
+        DamageResult result = DamageCalculator.CalculateMagicDamage(50f, 0f, 0f, 0f);
+        TestRunner.AssertEqual(50f, result.FinalDamage, "Zero magic resist should mitigate nothing");
+    }
+
+    public static void MagicDamage_NeverCrits()
+    {
+        DamageResult result = DamageCalculator.CalculateMagicDamage(50f, 0f, 0f, 0f);
+        TestRunner.Assert(!result.IsCritical, "Magic damage should never report a crit, per genre convention");
+    }
+
+    public static void MagicDamage_MitigatesByMagicResist_SameCurveAsArmor()
+    {
+        DamageResult result = DamageCalculator.CalculateMagicDamage(50f, 0f, 0f, 100f);
+        TestRunner.AssertEqual(25f, result.FinalDamage, "100 magic resist should halve damage, same 100/(100+x) curve as armor");
+    }
 }

@@ -14,6 +14,16 @@ internal class FakeTargetable : ITargetable
     public float LastDamageAmount { get; private set; }
     public bool LastDamageWasCritical { get; private set; }
 
+    public int HealCallCount { get; private set; }
+    public float LastHealAmount { get; private set; }
+
+    public int StunCallCount { get; private set; }
+    public float LastStunDuration { get; private set; }
+
+    public int SlowCallCount { get; private set; }
+    public float LastSlowPercent { get; private set; }
+    public float LastSlowDuration { get; private set; }
+
     public float GetStatValue(StatType statType) => ArmorValue;
 
     public void TakeDamage(float amount, bool isCritical)
@@ -21,5 +31,24 @@ internal class FakeTargetable : ITargetable
         TakeDamageCallCount++;
         LastDamageAmount = amount;
         LastDamageWasCritical = isCritical;
+    }
+
+    public void Heal(float amount)
+    {
+        HealCallCount++;
+        LastHealAmount = amount;
+    }
+
+    public void ApplyStun(float duration)
+    {
+        StunCallCount++;
+        LastStunDuration = duration;
+    }
+
+    public void ApplySlow(float percent, float duration)
+    {
+        SlowCallCount++;
+        LastSlowPercent = percent;
+        LastSlowDuration = duration;
     }
 }

@@ -21,9 +21,12 @@ namespace Project.Stats
         public float baseMagicResist = 20f;
         public float baseArmorPenetrationFlat = 0f;
         public float baseArmorPenetrationPercent = 0f;
+        public float baseMagicPenetrationFlat = 0f;
+        public float baseMagicPenetrationPercent = 0f;
 
         [Header("Utility")]
         public float baseMoveSpeed = 3.6f;
         public float baseCooldownReduction = 0f;
+        public float baseTenacity = 0f;
     }
 }

@@ -29,8 +29,24 @@ namespace Project.Combat
             return new DamageResult(finalDamage, isCritical, lifeSteal);
         }
 
-        /// True damage: ignores armor/magic resist entirely. No caller yet (reserved for
-        /// future skills/items) but trivial enough to not be worth withholding.
+        /// Magic damage never crits/lifesteals by default (standard MOBA convention — only
+        /// basic attacks do unless a specific item/skill says otherwise).
+        public static DamageResult CalculateMagicDamage(
+            float abilityDamage,
+            float magicPenFlat,
+            float magicPenPercent,
+            float targetMagicResist)
+        {
+            float effectiveResist = targetMagicResist * (1f - magicPenPercent) - magicPenFlat;
+            if (effectiveResist < 0f) effectiveResist = 0f;
+
+            float mitigation = 100f / (100f + effectiveResist);
+            float finalDamage = abilityDamage * mitigation;
+
+            return new DamageResult(finalDamage, false, 0f);
+        }
+
+        /// True damage: ignores armor/magic resist entirely.
         public static DamageResult CalculatePureDamage(float amount) => new DamageResult(amount, false, 0f);
     }
 }

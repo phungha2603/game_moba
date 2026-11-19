@@ -16,6 +16,9 @@ namespace Project.Stats
         public float CurrentHealth { get; private set; }
         public bool IsAlive => CurrentHealth > 0f;
 
+        /// Current Mana, independent from the Mana RuntimeStat (the max/cap), mirroring CurrentHealth.
+        public float CurrentMana { get; private set; }
+
         public event Action<float, float> OnHealthChanged; // (current, max)
 
         private void Awake()
@@ -57,6 +60,13 @@ namespace Project.Stats
             OnHealthChanged?.Invoke(CurrentHealth, max);
         }
 
+        public bool SpendMana(float amount)
+        {
+            if (CurrentMana < amount) return false;
+            CurrentMana -= amount;
+            return true;
+        }
+
         private static float Clamp(float value, float min, float max)
         {
             if (value < min) return min;
@@ -76,10 +86,14 @@ namespace Project.Stats
             _stats[StatType.MagicResist] = new RuntimeStat(StatType.MagicResist, _baseStats.baseMagicResist);
             _stats[StatType.ArmorPenetrationFlat] = new RuntimeStat(StatType.ArmorPenetrationFlat, _baseStats.baseArmorPenetrationFlat);
             _stats[StatType.ArmorPenetrationPercent] = new RuntimeStat(StatType.ArmorPenetrationPercent, _baseStats.baseArmorPenetrationPercent);
+            _stats[StatType.MagicPenetrationFlat] = new RuntimeStat(StatType.MagicPenetrationFlat, _baseStats.baseMagicPenetrationFlat);
+            _stats[StatType.MagicPenetrationPercent] = new RuntimeStat(StatType.MagicPenetrationPercent, _baseStats.baseMagicPenetrationPercent);
             _stats[StatType.MoveSpeed] = new RuntimeStat(StatType.MoveSpeed, _baseStats.baseMoveSpeed);
             _stats[StatType.CooldownReduction] = new RuntimeStat(StatType.CooldownReduction, _baseStats.baseCooldownReduction);
+            _stats[StatType.Tenacity] = new RuntimeStat(StatType.Tenacity, _baseStats.baseTenacity);
 
             CurrentHealth = GetValue(StatType.Health);
+            CurrentMana = GetValue(StatType.Mana);
         }
     }
 }

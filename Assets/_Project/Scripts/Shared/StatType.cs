@@ -14,6 +14,9 @@ namespace Project.Shared
         CritChance,
         LifeSteal,
         ArmorPenetrationFlat,
-        ArmorPenetrationPercent
+        ArmorPenetrationPercent,
+        MagicPenetrationFlat,
+        MagicPenetrationPercent,
+        Tenacity
     }
 }
