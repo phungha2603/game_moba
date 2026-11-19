@@ -28,6 +28,17 @@ internal static class Program
             ("ChaseAttackStateTests.ChaseState_ClosesDistance_ThenTransitionsToAttackStateInRange", ChaseAttackStateTests.ChaseState_ClosesDistance_ThenTransitionsToAttackStateInRange),
             ("ChaseAttackStateTests.AttackState_PerformsAttack_OnceClockIsReady", ChaseAttackStateTests.AttackState_PerformsAttack_OnceClockIsReady),
             ("ChaseAttackStateTests.MovingWhileChasing_InterruptsChaseAndClearsTarget", ChaseAttackStateTests.MovingWhileChasing_InterruptsChaseAndClearsTarget),
+            ("DamageCalculatorTests.NoArmor_DealsFullRawDamage", DamageCalculatorTests.NoArmor_DealsFullRawDamage),
+            ("DamageCalculatorTests.PositiveArmor_MitigatesUsingLeagueStyleFormula", DamageCalculatorTests.PositiveArmor_MitigatesUsingLeagueStyleFormula),
+            ("DamageCalculatorTests.CriticalHit_DoublesRawDamageBeforeMitigation", DamageCalculatorTests.CriticalHit_DoublesRawDamageBeforeMitigation),
+            ("DamageCalculatorTests.ArmorPenetrationPercent_AppliedBeforeFlat", DamageCalculatorTests.ArmorPenetrationPercent_AppliedBeforeFlat),
+            ("DamageCalculatorTests.ArmorPenetration_NeverMakesEffectiveArmorNegative", DamageCalculatorTests.ArmorPenetration_NeverMakesEffectiveArmorNegative),
+            ("DamageCalculatorTests.LifeSteal_IsPercentOfFinalDamageAfterMitigation", DamageCalculatorTests.LifeSteal_IsPercentOfFinalDamageAfterMitigation),
+            ("DamageCalculatorTests.RollIsCritical_ComparesRandomValueAgainstChance", DamageCalculatorTests.RollIsCritical_ComparesRandomValueAgainstChance),
+            ("CharacterStatsHealthTests.Initialize_SetsCurrentHealthToMax", CharacterStatsHealthTests.Initialize_SetsCurrentHealthToMax),
+            ("CharacterStatsHealthTests.ApplyDamage_ReducesCurrentHealth_ClampedAtZero", CharacterStatsHealthTests.ApplyDamage_ReducesCurrentHealth_ClampedAtZero),
+            ("CharacterStatsHealthTests.Heal_IncreasesCurrentHealth_ClampedAtMax", CharacterStatsHealthTests.Heal_IncreasesCurrentHealth_ClampedAtMax),
+            ("CharacterStatsHealthTests.OnHealthChanged_FiresWithCurrentAndMax", CharacterStatsHealthTests.OnHealthChanged_FiresWithCurrentAndMax),
         };
 
         return TestRunner.Run(tests);

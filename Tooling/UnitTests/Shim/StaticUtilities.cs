@@ -20,6 +20,13 @@ namespace UnityEngine
         public static float GetAxisRaw(string axisName) => 0f;
     }
 
+    public static class Random
+    {
+        private static readonly System.Random s_Rng = new System.Random();
+
+        public static float value => (float)s_Rng.NextDouble();
+    }
+
     public static class Screen
     {
         public static int width = 1280;

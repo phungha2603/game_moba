@@ -81,7 +81,20 @@ namespace Project.Character
         public void PerformAttack()
         {
             AttackClock.Reset();
-            // Phase 3 (Combat & Damage Calculator) applies real damage to Target from here.
+
+            if (Target == null) return;
+
+            bool isCritical = DamageCalculator.RollIsCritical(Stats.GetValue(StatType.CritChance), Random.value);
+            DamageResult result = DamageCalculator.CalculatePhysicalDamage(
+                Stats.GetValue(StatType.AttackDamage),
+                isCritical,
+                Stats.GetValue(StatType.LifeSteal),
+                Stats.GetValue(StatType.ArmorPenetrationFlat),
+                Stats.GetValue(StatType.ArmorPenetrationPercent),
+                Target.GetStatValue(StatType.Armor));
+
+            Target.TakeDamage(result.FinalDamage, result.IsCritical);
+            if (result.LifeStealAmount > 0f) Stats.Heal(result.LifeStealAmount);
         }
 
         private void HandleTick(float fixedDeltaTime)

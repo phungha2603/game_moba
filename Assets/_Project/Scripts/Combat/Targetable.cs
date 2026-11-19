@@ -16,7 +16,7 @@ namespace Project.Combat
         public Vector3 Position => transform.position;
         public Team Team => _team;
         public TargetType Type => _type;
-        public bool IsAlive => _isTargetableOverride && _stats.GetValue(StatType.Health) > 0f;
+        public bool IsAlive => _isTargetableOverride && _stats.IsAlive;
 
         private void Awake()
         {
@@ -31,5 +31,9 @@ namespace Project.Combat
 
         /// Lets a skill (e.g. untargetability) hide this unit from TargetSelector without touching its CharacterBrain.
         public void SetTargetableOverride(bool value) => _isTargetableOverride = value;
+
+        public float GetStatValue(StatType statType) => _stats.GetValue(statType);
+
+        public void TakeDamage(float amount, bool isCritical) => _stats.ApplyDamage(amount);
     }
 }

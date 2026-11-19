@@ -10,6 +10,10 @@ namespace Project.Shared
         MagicResist,
         MoveSpeed,
         CooldownReduction,
-        AttackSpeed
+        AttackSpeed,
+        CritChance,
+        LifeSteal,
+        ArmorPenetrationFlat,
+        ArmorPenetrationPercent
     }
 }

@@ -75,6 +75,8 @@ internal static class ChaseAttackStateTests
 
         Tick(ticker); // AttackClock should be ready by now and PerformAttack() resets it
         TestRunner.Assert(!brain.AttackClock.CanAttack, "AttackClock should have been reset by PerformAttack after becoming ready");
+        TestRunner.AssertEqual(1, target.TakeDamageCallCount, "PerformAttack should deal exactly one hit to the target");
+        TestRunner.Assert(target.LastDamageAmount > 0f, "The hit should carry positive damage");
     }
 
     public static void MovingWhileChasing_InterruptsChaseAndClearsTarget()
