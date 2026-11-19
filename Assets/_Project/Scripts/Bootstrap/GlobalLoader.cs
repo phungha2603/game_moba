@@ -2,6 +2,7 @@ using Project.CameraSystem;
 using Project.Character;
 using Project.Combat;
 using Project.Core;
+using Project.Economy;
 using Project.Lane;
 using Project.Shared;
 using Project.Stats;
@@ -57,6 +58,9 @@ namespace Project.Bootstrap
             Targetable targetable = hero.AddComponent<Targetable>();
             targetable.Initialize(Team.Blue, TargetType.Hero);
             hero.AddComponent<SphereCollider>().radius = 0.5f;
+
+            hero.AddComponent<HeroProgression>();
+            hero.AddComponent<Inventory>();
 
             CharacterBrain brain = hero.AddComponent<CharacterBrain>();
             hero.AddComponent<AutoAttackController>();
@@ -143,11 +147,34 @@ namespace Project.Bootstrap
 
             VirtualJoystick joystick = CreateJoystick(canvasGO.transform);
             AttackButton attackButton = CreateAttackButton(canvasGO.transform);
+            AttackButton buyButton = CreateBuyButton(canvasGO.transform);
 
             joystick.OnDirectionChanged += direction => hero.MoveDirection = new Vector3(direction.x, 0f, direction.y);
 
             var autoAttack = hero.GetComponent<AutoAttackController>();
             attackButton.OnPressed += autoAttack.RequestAttack;
+
+            Inventory inventory = hero.GetComponent<Inventory>();
+            ItemSO testItem = CreateTestItem();
+            buyButton.OnPressed += () => inventory.BuyItem(testItem);
+        }
+
+        /// Stands in for a real shop UI (Giai đoạn sau): proves Inventory/HeroProgression
+        /// wiring works end to end without needing a shop panel yet.
+        private static ItemSO CreateTestItem()
+        {
+            var item = ScriptableObject.CreateInstance<ItemSO>();
+            item.ItemName = "Test Blade";
+            item.Price = 300f;
+            item.StatBonuses.Add(new ItemStatBonus { Stat = StatType.AttackDamage, Value = 15f, ModType = ModifierType.Flat });
+            return item;
+        }
+
+        private static AttackButton CreateBuyButton(Transform canvasParent)
+        {
+            var rect = CreateUIRect("Buy Button", canvasParent, new Vector2(1f, 1f), new Vector2(-120f, -150f), new Vector2(140f, 100f));
+            rect.gameObject.AddComponent<Image>().color = new Color(0.2f, 0.6f, 0.2f, 0.8f);
+            return rect.gameObject.AddComponent<AttackButton>();
         }
 
         private static VirtualJoystick CreateJoystick(Transform canvasParent)

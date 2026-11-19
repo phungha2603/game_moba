@@ -109,7 +109,7 @@ namespace Project.Lane
                 Stats.GetValue(StatType.AttackDamage), false, 0f, 0f, 0f,
                 Target.GetStatValue(StatType.Armor));
 
-            Target.TakeDamage(result.FinalDamage, false);
+            Target.TakeDamage(result.FinalDamage, false, _targetable);
         }
 
         private void HandleHealthChanged(float current, float max)

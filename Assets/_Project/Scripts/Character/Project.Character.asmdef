@@ -6,7 +6,8 @@
         "Project.Core",
         "Project.Stats",
         "Project.Combat",
-        "Project.Skills"
+        "Project.Skills",
+        "Project.Economy"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

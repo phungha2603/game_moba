@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Project.Combat;
 using Project.Core;
+using Project.Economy;
 using Project.Shared;
 using Project.Skills;
 using Project.Stats;
@@ -15,6 +16,7 @@ namespace Project.Character
 
         private readonly List<SkillInstance> _skills = new List<SkillInstance>();
         private Targetable _targetable;
+        private Inventory _inventory;
 
         public CharacterStats Stats { get; private set; }
         public StatusEffectController StatusEffects { get; private set; }
@@ -37,6 +39,7 @@ namespace Project.Character
             Stats = GetComponent<CharacterStats>();
             StatusEffects = GetComponent<StatusEffectController>();
             _targetable = GetComponent<Targetable>();
+            _inventory = GetComponent<Inventory>();
             Self = GetComponent<ITargetable>();
             StateMachine = new StateMachine();
             AttackClock = new AttackClock();
@@ -110,8 +113,22 @@ namespace Project.Character
                 Stats.GetValue(StatType.ArmorPenetrationPercent),
                 Target.GetStatValue(StatType.Armor));
 
-            Target.TakeDamage(result.FinalDamage, result.IsCritical);
+            Target.TakeDamage(result.FinalDamage, result.IsCritical, Self);
             if (result.LifeStealAmount > 0f) Stats.Heal(result.LifeStealAmount);
+
+            if (Target.IsAlive) ApplyOnHitItems(Target);
+        }
+
+        /// No ICD/proc-chance yet — every on-hit item equipped triggers on every basic attack
+        /// (skipped by the IsAlive check above if the basic attack itself was the killing blow).
+        private void ApplyOnHitItems(ITargetable target)
+        {
+            if (_inventory == null) return;
+
+            foreach (ItemSO item in _inventory.GetOnHitItems())
+            {
+                SkillExecutor.ApplyEffect(item.OnHitEffect, DamageType.Physical, Self, target);
+            }
         }
 
         public SkillInstance AddSkill(SkillSO skillData)

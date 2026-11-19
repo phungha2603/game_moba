@@ -24,4 +24,14 @@ internal static class StatModifierTests
         stat.RemoveModifiersFromSource("potion");
         TestRunner.AssertEqual(100f, stat.CurrentValue, "Value after removing modifier");
     }
+
+    public static void SetBaseValue_InvalidatesCacheEvenAfterCurrentValueWasAlreadyRead()
+    {
+        var stat = new RuntimeStat(StatType.Health, 100f);
+        TestRunner.AssertEqual(100f, stat.CurrentValue, "Sanity check: read once to populate the cache");
+
+        stat.SetBaseValue(250f);
+
+        TestRunner.AssertEqual(250f, stat.CurrentValue, "Changing BaseValue after a read must invalidate the cached CurrentValue");
+    }
 }

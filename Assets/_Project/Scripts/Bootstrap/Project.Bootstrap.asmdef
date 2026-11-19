@@ -9,7 +9,8 @@
         "Project.CameraSystem",
         "Project.Combat",
         "Project.UI",
-        "Project.Lane"
+        "Project.Lane",
+        "Project.Economy"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

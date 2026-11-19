@@ -28,5 +28,16 @@ namespace Project.Stats
         public float baseMoveSpeed = 3.6f;
         public float baseCooldownReduction = 0f;
         public float baseTenacity = 0f;
+
+        [Header("Per-Level Growth")]
+        public float healthGrowth = 80f;
+        public float manaGrowth = 40f;
+        public float attackDamageGrowth = 3f;
+        public float armorGrowth = 3f;
+        public float magicResistGrowth = 1.5f;
+
+        [Header("Economy")]
+        public float goldReward = 20f;
+        public float expReward = 30f;
     }
 }

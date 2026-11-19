@@ -1,0 +1,20 @@
+{
+    "name": "Project.Economy",
+    "rootNamespace": "Project.Economy",
+    "references": [
+        "Project.Shared",
+        "Project.Core",
+        "Project.Stats",
+        "Project.Combat",
+        "Project.Skills"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

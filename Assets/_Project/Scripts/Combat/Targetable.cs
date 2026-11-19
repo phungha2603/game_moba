@@ -1,3 +1,4 @@
+using System;
 using Project.Shared;
 using Project.Stats;
 using UnityEngine;
@@ -20,6 +21,13 @@ namespace Project.Combat
         public TargetType Type => _type;
         public bool IsAlive => _isTargetableOverride && _stats.IsAlive;
         public ITargetable CurrentAttackTarget => _currentAttackTarget;
+        public float GoldReward => _stats.GoldReward;
+        public float ExpReward => _stats.ExpReward;
+
+        /// Raised on THIS unit when it lands a killing blow on someone else (see NotifyKill) —
+        /// Project.Economy's HeroProgression subscribes to its own Targetable's event rather
+        /// than Project.Combat ever depending on Economy.
+        public event Action<ITargetable> OnKillScored;
 
         private void Awake()
         {
@@ -38,7 +46,18 @@ namespace Project.Combat
 
         public float GetStatValue(StatType statType) => _stats.GetValue(statType);
 
-        public void TakeDamage(float amount, bool isCritical) => _stats.ApplyDamage(amount);
+        public void TakeDamage(float amount, bool isCritical, ITargetable attacker)
+        {
+            bool wasAlive = _stats.IsAlive;
+            _stats.ApplyDamage(amount);
+
+            if (wasAlive && !_stats.IsAlive)
+            {
+                attacker?.NotifyKill(this);
+            }
+        }
+
+        public void NotifyKill(ITargetable victim) => OnKillScored?.Invoke(victim);
 
         public void Heal(float amount) => _stats.Heal(amount);
 

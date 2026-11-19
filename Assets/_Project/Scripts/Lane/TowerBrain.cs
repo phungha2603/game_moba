@@ -61,7 +61,7 @@ namespace Project.Lane
                 _stats.GetValue(StatType.AttackDamage), false, 0f, 0f, 0f,
                 _currentTarget.GetStatValue(StatType.Armor));
 
-            _currentTarget.TakeDamage(result.FinalDamage, false);
+            _currentTarget.TakeDamage(result.FinalDamage, false, _targetable);
         }
     }
 }

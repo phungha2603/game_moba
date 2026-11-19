@@ -15,28 +15,37 @@ namespace Project.Skills
 
             foreach (SkillEffectData effect in skillData.Effects)
             {
-                switch (effect.EffectType)
-                {
-                    case SkillEffectType.Damage:
-                        ApplyDamage(skillData, effect, caster, effectTarget);
-                        break;
-                    case SkillEffectType.Heal:
-                        effectTarget.Heal(effect.Value);
-                        break;
-                    case SkillEffectType.Stun:
-                        effectTarget.ApplyStun(effect.Duration);
-                        break;
-                    case SkillEffectType.Slow:
-                        effectTarget.ApplySlow(effect.Value, effect.Duration);
-                        break;
-                }
+                ApplyEffect(effect, skillData.DamageType, caster, effectTarget);
             }
         }
 
-        private static void ApplyDamage(SkillSO skillData, SkillEffectData effect, ITargetable caster, ITargetable target)
+        /// Applies one effect directly — used by SkillSO's effect list above, and reused as-is
+        /// by item on-hit passives (Project.Economy), so neither has to duplicate this switch.
+        public static void ApplyEffect(SkillEffectData effect, DamageType damageType, ITargetable caster, ITargetable target)
+        {
+            if (target == null) return;
+
+            switch (effect.EffectType)
+            {
+                case SkillEffectType.Damage:
+                    ApplyDamage(effect, damageType, caster, target);
+                    break;
+                case SkillEffectType.Heal:
+                    target.Heal(effect.Value);
+                    break;
+                case SkillEffectType.Stun:
+                    target.ApplyStun(effect.Duration);
+                    break;
+                case SkillEffectType.Slow:
+                    target.ApplySlow(effect.Value, effect.Duration);
+                    break;
+            }
+        }
+
+        private static void ApplyDamage(SkillEffectData effect, DamageType damageType, ITargetable caster, ITargetable target)
         {
             DamageResult result;
-            switch (skillData.DamageType)
+            switch (damageType)
             {
                 case DamageType.Magic:
                     result = DamageCalculator.CalculateMagicDamage(
@@ -57,7 +66,7 @@ namespace Project.Skills
                     break;
             }
 
-            target.TakeDamage(result.FinalDamage, result.IsCritical);
+            target.TakeDamage(result.FinalDamage, result.IsCritical, caster);
         }
     }
 }

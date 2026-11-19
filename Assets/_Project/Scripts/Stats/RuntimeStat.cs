@@ -6,7 +6,7 @@ namespace Project.Stats
     public class RuntimeStat
     {
         public readonly StatType Type;
-        public float BaseValue;
+        public float BaseValue { get; private set; }
 
         private readonly List<StatModifier> _modifiers = new List<StatModifier>();
         private float _cachedValue;
@@ -25,6 +25,15 @@ namespace Project.Stats
                 if (_isDirty) Recalculate();
                 return _cachedValue;
             }
+        }
+
+        /// Only way to change BaseValue after construction (e.g. leveling up) — a direct
+        /// field write would leave a stale CurrentValue cached if it had already been read.
+        public void SetBaseValue(float value)
+        {
+            if (value == BaseValue) return;
+            BaseValue = value;
+            _isDirty = true;
         }
 
         public void AddModifier(StatModifier modifier)
