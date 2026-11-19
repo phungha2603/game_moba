@@ -18,7 +18,7 @@ namespace UnityEngine
         public string fileName;
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class RequireComponentAttribute : Attribute
     {
         public RequireComponentAttribute(Type type) { }

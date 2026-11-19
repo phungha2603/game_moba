@@ -9,6 +9,7 @@ internal class FakeTargetable : ITargetable
     public bool IsAlive { get; set; } = true;
 
     public float ArmorValue { get; set; }
+    public ITargetable CurrentAttackTarget { get; set; }
 
     public int TakeDamageCallCount { get; private set; }
     public float LastDamageAmount { get; private set; }

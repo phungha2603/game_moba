@@ -16,10 +16,15 @@
       - Scripts/UI/** : VirtualJoystick, AttackButton, SkillAimButton
       - TargetScanner.cs, AutoAttackController.cs : Physics.OverlapSphere
       - Bootstrap/GlobalLoader.cs : Canvas/EventSystem/SphereCollider wiring
+      - Lane/MinionAggroController.cs, Lane/TowerBrain.cs, Lane/LaneSpawner.cs :
+        Physics.OverlapSphere / SphereCollider wiring
     -->
     <Compile Remove="../../../Assets/_Project/Scripts/Combat/TargetScanner.cs" />
     <Compile Remove="../../../Assets/_Project/Scripts/Character/AutoAttackController.cs" />
     <Compile Remove="../../../Assets/_Project/Scripts/Bootstrap/GlobalLoader.cs" />
+    <Compile Remove="../../../Assets/_Project/Scripts/Lane/MinionAggroController.cs" />
+    <Compile Remove="../../../Assets/_Project/Scripts/Lane/TowerBrain.cs" />
+    <Compile Remove="../../../Assets/_Project/Scripts/Lane/LaneSpawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Shim/UnitySdkShim.csproj" />

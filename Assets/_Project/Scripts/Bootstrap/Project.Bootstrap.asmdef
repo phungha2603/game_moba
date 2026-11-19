@@ -8,7 +8,8 @@
         "Project.Character",
         "Project.CameraSystem",
         "Project.Combat",
-        "Project.UI"
+        "Project.UI",
+        "Project.Lane"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

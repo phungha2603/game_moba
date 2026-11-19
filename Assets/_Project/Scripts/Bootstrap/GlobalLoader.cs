@@ -2,6 +2,7 @@ using Project.CameraSystem;
 using Project.Character;
 using Project.Combat;
 using Project.Core;
+using Project.Lane;
 using Project.Shared;
 using Project.Stats;
 using Project.UI;
@@ -11,10 +12,11 @@ using UnityEngine.UI;
 
 namespace Project.Bootstrap
 {
-    /// Builds the Phase 1+2 test scene entirely from code (hero, dummy target, camera,
-    /// joystick/attack-button HUD, LogicTicker) so the project is playable without any
-    /// manual Editor scene wiring. UI construction here is review-only, not unit-tested
-    /// (needs real UnityEngine.UI/EventSystems/Physics, which the .NET shim does not provide).
+    /// Builds the vertical-slice test scene entirely from code (hero, dummy target, lane
+    /// with towers + minion waves, camera, joystick/attack-button HUD, LogicTicker) so the
+    /// project is playable without any manual Editor scene wiring. UI/Physics construction
+    /// here is review-only, not unit-tested (needs real UnityEngine.UI/EventSystems/Physics,
+    /// which the .NET shim does not provide).
     public class GlobalLoader : MonoBehaviour
     {
         [SerializeField] private string _heroStatsResourcePath = "DefaultHeroStats";
@@ -26,6 +28,7 @@ namespace Project.Bootstrap
 
             CharacterBrain hero = SpawnHero();
             SpawnDummyTarget();
+            SpawnLane();
             SpawnCamera(hero.transform);
             SpawnHud(hero);
         }
@@ -75,6 +78,39 @@ namespace Project.Bootstrap
             Targetable targetable = dummy.AddComponent<Targetable>();
             targetable.Initialize(Team.Red, TargetType.Minion);
             dummy.AddComponent<SphereCollider>().radius = 0.5f;
+        }
+
+        /// One lane, two towers, minion waves marching between them — reuses the same
+        /// BaseStats asset as Hero/Dummy (no separate MinionData/TowerData needed yet).
+        private void SpawnLane()
+        {
+            var blueTowerPosition = new Vector3(-10f, 0f, 0f);
+            var redTowerPosition = new Vector3(10f, 0f, 0f);
+
+            SpawnTower(Team.Blue, blueTowerPosition);
+            SpawnTower(Team.Red, redTowerPosition);
+
+            var bluePath = new LanePath(new Vector3(-8f, 0f, 0f), new Vector3(8f, 0f, 0f));
+            var redPath = new LanePath(new Vector3(8f, 0f, 0f), new Vector3(-8f, 0f, 0f));
+
+            var spawnerGO = new GameObject("LaneSpawner");
+            LaneSpawner spawner = spawnerGO.AddComponent<LaneSpawner>();
+            spawner.Configure(LoadHeroStats(), bluePath, redPath);
+        }
+
+        private void SpawnTower(Team team, Vector3 position)
+        {
+            var go = new GameObject($"Tower_{team}");
+            go.transform.position = position;
+
+            CharacterStats stats = go.AddComponent<CharacterStats>();
+            stats.Initialize(LoadHeroStats());
+
+            Targetable targetable = go.AddComponent<Targetable>();
+            targetable.Initialize(team, TargetType.Tower);
+            go.AddComponent<SphereCollider>().radius = 1f;
+
+            go.AddComponent<TowerBrain>();
         }
 
         private BaseStats LoadHeroStats()

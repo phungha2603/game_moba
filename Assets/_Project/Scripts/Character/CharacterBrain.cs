@@ -14,6 +14,7 @@ namespace Project.Character
         [SerializeField] private float _attackRange = 2f;
 
         private readonly List<SkillInstance> _skills = new List<SkillInstance>();
+        private Targetable _targetable;
 
         public CharacterStats Stats { get; private set; }
         public StatusEffectController StatusEffects { get; private set; }
@@ -35,6 +36,7 @@ namespace Project.Character
         {
             Stats = GetComponent<CharacterStats>();
             StatusEffects = GetComponent<StatusEffectController>();
+            _targetable = GetComponent<Targetable>();
             Self = GetComponent<ITargetable>();
             StateMachine = new StateMachine();
             AttackClock = new AttackClock();
@@ -77,10 +79,15 @@ namespace Project.Character
         {
             if (target == null) return;
             Target = target;
+            _targetable?.SetCurrentAttackTarget(target);
             StateMachine.ChangeState(ChaseState);
         }
 
-        public void ClearTarget() => Target = null;
+        public void ClearTarget()
+        {
+            Target = null;
+            _targetable?.SetCurrentAttackTarget(null);
+        }
 
         public bool IsTargetInAttackRange()
         {
@@ -136,6 +143,7 @@ namespace Project.Character
 
         private void HandleTick(float fixedDeltaTime)
         {
+            AttackClock.AttacksPerSecond = Stats.GetValue(StatType.AttackSpeed);
             AttackClock.Tick(fixedDeltaTime);
 
             // Check before ticking the controller down, so a stun still active at the start

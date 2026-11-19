@@ -1,5 +1,4 @@
 using Project.Core;
-using Project.Shared;
 
 namespace Project.Character
 {
@@ -12,10 +11,7 @@ namespace Project.Character
             _brain = brain;
         }
 
-        public void OnEnter()
-        {
-            _brain.AttackClock.AttacksPerSecond = _brain.Stats.GetValue(StatType.AttackSpeed);
-        }
+        public void OnEnter() { }
 
         public void OnUpdate(float deltaTime)
         {

@@ -13,11 +13,13 @@ namespace Project.Combat
         private CharacterStats _stats;
         private StatusEffectController _statusEffects;
         private bool _isTargetableOverride = true;
+        private ITargetable _currentAttackTarget;
 
         public Vector3 Position => transform.position;
         public Team Team => _team;
         public TargetType Type => _type;
         public bool IsAlive => _isTargetableOverride && _stats.IsAlive;
+        public ITargetable CurrentAttackTarget => _currentAttackTarget;
 
         private void Awake()
         {
@@ -43,5 +45,9 @@ namespace Project.Combat
         public void ApplyStun(float duration) => _statusEffects?.ApplyStun(duration);
 
         public void ApplySlow(float percent, float duration) => _statusEffects?.ApplySlow(percent, duration);
+
+        /// Called by whatever brain owns this unit (CharacterBrain, MinionBrain, TowerBrain)
+        /// whenever its own attack target changes — see ITargetable.CurrentAttackTarget.
+        public void SetCurrentAttackTarget(ITargetable target) => _currentAttackTarget = target;
     }
 }

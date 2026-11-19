@@ -62,6 +62,20 @@ internal static class Program
             ("CastSkillTests.TryCastSkill_TargetedSkill_FailsWhenTargetOutOfRange", CastSkillTests.TryCastSkill_TargetedSkill_FailsWhenTargetOutOfRange),
             ("StunnedStateTests.BeingStunned_ForcesStunnedStateAndIgnoresMoveInput", StunnedStateTests.BeingStunned_ForcesStunnedStateAndIgnoresMoveInput),
             ("StunnedStateTests.StunExpiring_ReturnsToIdleStateAfterDurationElapses", StunnedStateTests.StunExpiring_ReturnsToIdleStateAfterDurationElapses),
+            ("MinionBrainTests.OnEnable_StartsInMoveState", MinionBrainTests.OnEnable_StartsInMoveState),
+            ("MinionBrainTests.MoveState_WalksTowardPathEnd", MinionBrainTests.MoveState_WalksTowardPathEnd),
+            ("MinionBrainTests.EngageTarget_TransitionsToChaseState", MinionBrainTests.EngageTarget_TransitionsToChaseState),
+            ("MinionBrainTests.ChaseState_TargetBeyondAggroRange_ReturnsToMove", MinionBrainTests.ChaseState_TargetBeyondAggroRange_ReturnsToMove),
+            ("MinionBrainTests.ChaseState_ClosesIn_ThenAttacks", MinionBrainTests.ChaseState_ClosesIn_ThenAttacks),
+            ("MinionBrainTests.AttackState_DealsDamageOnceClockReady", MinionBrainTests.AttackState_DealsDamageOnceClockReady),
+            ("MinionBrainTests.TakingLethalDamage_TransitionsToDeadState", MinionBrainTests.TakingLethalDamage_TransitionsToDeadState),
+            ("TowerTargetSelectorTests.NoCandidates_ReturnsNull", TowerTargetSelectorTests.NoCandidates_ReturnsNull),
+            ("TowerTargetSelectorTests.DefaultsToNearestEnemyMinion", TowerTargetSelectorTests.DefaultsToNearestEnemyMinion),
+            ("TowerTargetSelectorTests.NoMinions_FallsBackToNearestEnemyHero", TowerTargetSelectorTests.NoMinions_FallsBackToNearestEnemyHero),
+            ("TowerTargetSelectorTests.NeverSelectsAllies", TowerTargetSelectorTests.NeverSelectsAllies),
+            ("TowerTargetSelectorTests.EnemyAttackingAllyInRange_OverridesDefaultMinionPriority", TowerTargetSelectorTests.EnemyAttackingAllyInRange_OverridesDefaultMinionPriority),
+            ("TowerTargetSelectorTests.EnemyAttackingAllyOutOfTowerRange_DoesNotTriggerSwitch", TowerTargetSelectorTests.EnemyAttackingAllyOutOfTowerRange_DoesNotTriggerSwitch),
+            ("TowerTargetSelectorTests.DeadCandidates_AreIgnored", TowerTargetSelectorTests.DeadCandidates_AreIgnored),
         };
 
         return TestRunner.Run(tests);
