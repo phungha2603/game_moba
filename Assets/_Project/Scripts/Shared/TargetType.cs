@@ -5,6 +5,7 @@ namespace Project.Shared
         Hero,
         Minion,
         Tower,
-        Monster
+        Monster,
+        Nexus
     }
 }

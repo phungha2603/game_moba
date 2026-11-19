@@ -10,7 +10,9 @@
         "Project.Combat",
         "Project.UI",
         "Project.Lane",
-        "Project.Economy"
+        "Project.Economy",
+        "Project.Skills",
+        "Project.Visuals"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

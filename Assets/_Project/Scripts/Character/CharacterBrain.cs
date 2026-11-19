@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Project.Combat;
 using Project.Core;
@@ -33,6 +34,14 @@ namespace Project.Character
         public AttackState AttackState { get; private set; }
         public StunnedState StunnedState { get; private set; }
         public DeadState DeadState { get; private set; }
+
+        /// For visual feedback only (CharacterView) — fires on every basic attack landed.
+        public event Action OnAttackPerformed;
+
+        /// Raised instead of applying effects directly when a Skillshot skill is cast —
+        /// ProjectileLauncher (Physics-touching) is the one that actually spawns anything;
+        /// CharacterBrain itself stays Physics-free.
+        public event Action<SkillSO, Vector3> OnSkillshotRequested;
 
         private void Awake()
         {
@@ -104,7 +113,7 @@ namespace Project.Character
 
             if (Target == null) return;
 
-            bool isCritical = DamageCalculator.RollIsCritical(Stats.GetValue(StatType.CritChance), Random.value);
+            bool isCritical = DamageCalculator.RollIsCritical(Stats.GetValue(StatType.CritChance), UnityEngine.Random.value);
             DamageResult result = DamageCalculator.CalculatePhysicalDamage(
                 Stats.GetValue(StatType.AttackDamage),
                 isCritical,
@@ -117,6 +126,7 @@ namespace Project.Character
             if (result.LifeStealAmount > 0f) Stats.Heal(result.LifeStealAmount);
 
             if (Target.IsAlive) ApplyOnHitItems(Target);
+            OnAttackPerformed?.Invoke();
         }
 
         /// No ICD/proc-chance yet — every on-hit item equipped triggers on every basic attack
@@ -139,7 +149,8 @@ namespace Project.Character
         }
 
         /// Checks range/target/mana before committing — nothing is spent on a failed cast.
-        public bool TryCastSkill(SkillInstance skill)
+        /// `direction` is only read for Skillshot skills (aim direction from SkillAimButton).
+        public bool TryCastSkill(SkillInstance skill, Vector3 direction = default)
         {
             if (skill == null || !skill.IsReady) return false;
 
@@ -150,11 +161,24 @@ namespace Project.Character
                 float rangeSqr = skill.Data.CastRange * skill.Data.CastRange;
                 if ((Target.Position - transform.position).sqrMagnitude > rangeSqr) return false;
             }
+            else if (skill.Data.TargetingType == SkillTargetingType.Skillshot)
+            {
+                if (direction.sqrMagnitude < 0.0001f) return false;
+            }
 
             if (!Stats.SpendMana(skill.Data.ManaCost)) return false;
 
             skill.StartCooldown();
-            SkillExecutor.Execute(skill.Data, Self, Target);
+
+            if (skill.Data.TargetingType == SkillTargetingType.Skillshot)
+            {
+                OnSkillshotRequested?.Invoke(skill.Data, direction);
+            }
+            else
+            {
+                SkillExecutor.Execute(skill.Data, Self, Target);
+            }
+
             return true;
         }
 

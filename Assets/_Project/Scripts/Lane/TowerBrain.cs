@@ -1,3 +1,4 @@
+using System;
 using Project.Combat;
 using Project.Core;
 using Project.Shared;
@@ -21,6 +22,9 @@ namespace Project.Lane
         private Targetable _targetable;
         private readonly AttackClock _attackClock = new AttackClock();
         private ITargetable _currentTarget;
+
+        /// For visual feedback only (CharacterView) — fires on every basic attack landed.
+        public event Action OnAttackPerformed;
 
         private void Awake()
         {
@@ -62,6 +66,7 @@ namespace Project.Lane
                 _currentTarget.GetStatValue(StatType.Armor));
 
             _currentTarget.TakeDamage(result.FinalDamage, false, _targetable);
+            OnAttackPerformed?.Invoke();
         }
     }
 }

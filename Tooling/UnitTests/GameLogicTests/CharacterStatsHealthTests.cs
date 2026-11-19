@@ -59,4 +59,18 @@ internal static class CharacterStatsHealthTests
         TestRunner.AssertEqual(70f, reportedCurrent ?? -1f, "OnHealthChanged should report the new current health");
         TestRunner.AssertEqual(100f, reportedMax ?? -1f, "OnHealthChanged should report max health");
     }
+
+    public static void OnDamaged_FiresOnDamage_ButNotOnHeal()
+    {
+        CharacterStats stats = Spawn(health: 100f);
+        stats.ApplyDamage(50f);
+        int damagedCallCount = 0;
+        stats.OnDamaged += amount => damagedCallCount++;
+
+        stats.Heal(10f);
+        TestRunner.AssertEqual(0, damagedCallCount, "OnDamaged must not fire on a heal");
+
+        stats.ApplyDamage(5f);
+        TestRunner.AssertEqual(1, damagedCallCount, "OnDamaged must fire exactly once per ApplyDamage call");
+    }
 }

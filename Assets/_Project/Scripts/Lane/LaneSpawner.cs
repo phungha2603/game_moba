@@ -2,6 +2,7 @@ using Project.Combat;
 using Project.Core;
 using Project.Shared;
 using Project.Stats;
+using Project.Visuals;
 using UnityEngine;
 
 namespace Project.Lane
@@ -64,6 +65,11 @@ namespace Project.Lane
             MinionBrain brain = go.AddComponent<MinionBrain>();
             brain.SetPath(path);
             go.AddComponent<MinionAggroController>();
+
+            CharacterView view = go.AddComponent<CharacterView>();
+            Color color = team == Team.Blue ? Color.cyan : Color.magenta;
+            view.Configure(stats, PrimitiveType.Cube, color);
+            brain.OnAttackPerformed += view.PlayAttackPulse;
         }
     }
 }

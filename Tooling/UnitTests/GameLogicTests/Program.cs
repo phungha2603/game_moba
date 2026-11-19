@@ -99,6 +99,15 @@ internal static class Program
             ("OnHitItemTests.EquippedOnHitItem_TriggersItsEffectOnPerformAttack", OnHitItemTests.EquippedOnHitItem_TriggersItsEffectOnPerformAttack),
             ("OnHitItemTests.NoOnHitItemEquipped_PerformAttackDoesNotTriggerAnyEffect", OnHitItemTests.NoOnHitItemEquipped_PerformAttackDoesNotTriggerAnyEffect),
             ("OnHitItemTests.KillingBlow_DoesNotAlsoTriggerOnHitEffectOnTheDeadTarget", OnHitItemTests.KillingBlow_DoesNotAlsoTriggerOnHitEffectOnTheDeadTarget),
+            ("CastSkillTests.TryCastSkill_Skillshot_SpendsManaAndRaisesSkillshotEventInsteadOfApplyingEffectsDirectly", CastSkillTests.TryCastSkill_Skillshot_SpendsManaAndRaisesSkillshotEventInsteadOfApplyingEffectsDirectly),
+            ("CastSkillTests.TryCastSkill_Skillshot_FailsWithoutAimDirection", CastSkillTests.TryCastSkill_Skillshot_FailsWithoutAimDirection),
+            ("AttackPerformedEventTests.CharacterBrain_PerformAttack_RaisesOnAttackPerformed", AttackPerformedEventTests.CharacterBrain_PerformAttack_RaisesOnAttackPerformed),
+            ("AttackPerformedEventTests.MinionBrain_PerformAttack_RaisesOnAttackPerformed", AttackPerformedEventTests.MinionBrain_PerformAttack_RaisesOnAttackPerformed),
+            ("CharacterStatsHealthTests.OnDamaged_FiresOnDamage_ButNotOnHeal", CharacterStatsHealthTests.OnDamaged_FiresOnDamage_ButNotOnHeal),
+            ("MatchManagerTests.BothNexusesAlive_MatchHasNotEnded", MatchManagerTests.BothNexusesAlive_MatchHasNotEnded),
+            ("MatchManagerTests.BlueNexusDies_RedTeamWins", MatchManagerTests.BlueNexusDies_RedTeamWins),
+            ("MatchManagerTests.RedNexusDies_BlueTeamWins", MatchManagerTests.RedNexusDies_BlueTeamWins),
+            ("MatchManagerTests.MatchAlreadyEnded_FurtherDamageDoesNotRaiseEventAgain", MatchManagerTests.MatchAlreadyEnded_FurtherDamageDoesNotRaiseEventAgain),
         };
 
         return TestRunner.Run(tests);

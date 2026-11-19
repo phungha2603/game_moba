@@ -3,6 +3,7 @@
     "rootNamespace": "Project.Skills",
     "references": [
         "Project.Shared",
+        "Project.Core",
         "Project.Combat"
     ],
     "includePlatforms": [],

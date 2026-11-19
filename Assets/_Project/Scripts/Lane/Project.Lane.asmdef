@@ -5,7 +5,8 @@
         "Project.Shared",
         "Project.Core",
         "Project.Stats",
-        "Project.Combat"
+        "Project.Combat",
+        "Project.Visuals"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

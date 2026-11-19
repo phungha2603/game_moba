@@ -21,6 +21,10 @@ namespace Project.Stats
 
         public event Action<float, float> OnHealthChanged; // (current, max)
 
+        /// Fires only on damage (not heal/level-up) — for hit-flash FX, kept separate from
+        /// OnHealthChanged so visuals don't flash red on a heal.
+        public event Action<float> OnDamaged; // amount
+
         public float GoldReward => _baseStats != null ? _baseStats.goldReward : 0f;
         public float ExpReward => _baseStats != null ? _baseStats.expReward : 0f;
 
@@ -54,6 +58,7 @@ namespace Project.Stats
             float max = GetValue(StatType.Health);
             CurrentHealth = Clamp(CurrentHealth - amount, 0f, max);
             OnHealthChanged?.Invoke(CurrentHealth, max);
+            OnDamaged?.Invoke(amount);
         }
 
         public void Heal(float amount)

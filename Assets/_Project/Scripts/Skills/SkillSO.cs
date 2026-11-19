@@ -13,6 +13,10 @@ namespace Project.Skills
         public float CastRange = 5f;
         public SkillTargetingType TargetingType = SkillTargetingType.Target;
 
+        /// Only relevant when TargetingType == Skillshot.
+        public float ProjectileSpeed = 10f;
+        public float ProjectileRange = 8f;
+
         /// Only relevant for Damage effects; Magic/Pure deliberately never crit (see DamageCalculator).
         public DamageType DamageType = DamageType.Physical;
 

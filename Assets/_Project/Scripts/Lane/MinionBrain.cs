@@ -1,3 +1,4 @@
+using System;
 using Project.Combat;
 using Project.Core;
 using Project.Shared;
@@ -31,6 +32,9 @@ namespace Project.Lane
         public MinionChaseState ChaseState { get; private set; }
         public MinionAttackState AttackState { get; private set; }
         public MinionDeadState DeadState { get; private set; }
+
+        /// For visual feedback only (CharacterView) — fires on every basic attack landed.
+        public event Action OnAttackPerformed;
 
         private void Awake()
         {
@@ -110,6 +114,7 @@ namespace Project.Lane
                 Target.GetStatValue(StatType.Armor));
 
             Target.TakeDamage(result.FinalDamage, false, _targetable);
+            OnAttackPerformed?.Invoke();
         }
 
         private void HandleHealthChanged(float current, float max)

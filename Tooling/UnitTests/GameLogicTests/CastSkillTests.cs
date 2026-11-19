@@ -82,4 +82,35 @@ internal static class CastSkillTests
 
         TestRunner.Assert(!cast, "Casting a Target-type skill should fail when the target is out of CastRange");
     }
+
+    public static void TryCastSkill_Skillshot_SpendsManaAndRaisesSkillshotEventInsteadOfApplyingEffectsDirectly()
+    {
+        (CharacterBrain brain, _) = Spawn(mana: 100f);
+        var skillData = new SkillSO { ManaCost = 30f, Cooldown = 1f, TargetingType = SkillTargetingType.Skillshot };
+        skillData.Effects.Add(new SkillEffectData { EffectType = SkillEffectType.Damage, Value = 10f });
+        SkillInstance skill = brain.AddSkill(skillData);
+
+        SkillSO raisedSkill = null;
+        Vector3 raisedDirection = default;
+        brain.OnSkillshotRequested += (s, d) => { raisedSkill = s; raisedDirection = d; };
+
+        bool cast = brain.TryCastSkill(skill, new Vector3(1f, 0f, 0f));
+
+        TestRunner.Assert(cast, "Casting a Skillshot with a valid direction and enough mana should succeed");
+        TestRunner.AssertEqual(70f, brain.Stats.CurrentMana, "Mana should still be spent for a Skillshot cast");
+        TestRunner.Assert(ReferenceEquals(raisedSkill, skillData), "OnSkillshotRequested should carry the skill's data");
+        TestRunner.AssertEqual(1f, raisedDirection.x, "OnSkillshotRequested should carry the aim direction passed in");
+    }
+
+    public static void TryCastSkill_Skillshot_FailsWithoutAimDirection()
+    {
+        (CharacterBrain brain, _) = Spawn(mana: 100f);
+        var skillData = new SkillSO { ManaCost = 30f, Cooldown = 1f, TargetingType = SkillTargetingType.Skillshot };
+        SkillInstance skill = brain.AddSkill(skillData);
+
+        bool cast = brain.TryCastSkill(skill, Vector3.zero);
+
+        TestRunner.Assert(!cast, "A Skillshot cast with no aim direction must fail");
+        TestRunner.AssertEqual(100f, brain.Stats.CurrentMana, "A failed Skillshot cast must not spend mana");
+    }
 }

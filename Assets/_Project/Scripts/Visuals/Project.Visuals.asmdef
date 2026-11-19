@@ -1,0 +1,16 @@
+{
+    "name": "Project.Visuals",
+    "rootNamespace": "Project.Visuals",
+    "references": [
+        "Project.Stats"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
