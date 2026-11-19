@@ -12,6 +12,13 @@ namespace Project.Stats
 
         private void Awake()
         {
+            if (_baseStats != null) BuildFromBaseStats();
+        }
+
+        /// Lets code-driven setup (e.g. GlobalLoader) assign stats before the Inspector would.
+        public void Initialize(BaseStats baseStats)
+        {
+            _baseStats = baseStats;
             BuildFromBaseStats();
         }
 
