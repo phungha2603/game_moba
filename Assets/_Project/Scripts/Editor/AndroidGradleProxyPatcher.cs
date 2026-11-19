@@ -30,7 +30,10 @@ namespace Project.EditorTools
                 return;
             }
 
-            string propsPath = Path.Combine(path, "gradle.properties");
+            // 'path' is the generated unityLibrary module directory; the Gradle root
+            // project (where pluginManagement/settings.gradle resolve plugins) is its parent.
+            string gradleRoot = Path.GetDirectoryName(path.TrimEnd('/', '\\'));
+            string propsPath = Path.Combine(gradleRoot, "gradle.properties");
             string proxyLines =
                 $"\nsystemProp.http.proxyHost={proxy.Host}\n" +
                 $"systemProp.http.proxyPort={proxy.Port}\n" +
