@@ -1,0 +1,16 @@
+{
+    "name": "Project.CameraSystem",
+    "rootNamespace": "Project.CameraSystem",
+    "references": [
+        "Project.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

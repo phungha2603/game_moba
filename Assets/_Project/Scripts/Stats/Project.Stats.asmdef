@@ -1,0 +1,17 @@
+{
+    "name": "Project.Stats",
+    "rootNamespace": "Project.Stats",
+    "references": [
+        "Project.Shared",
+        "Project.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
