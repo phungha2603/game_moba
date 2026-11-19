@@ -7,6 +7,9 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+# NDK/CMake build scratch directory for native (.so) plugins
+/.utmp/
+
 # MemoryCaptures can get excessive in size
 /[Mm]emoryCaptures/
 
