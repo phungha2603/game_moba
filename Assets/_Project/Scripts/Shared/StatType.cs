@@ -9,6 +9,7 @@ namespace Project.Shared
         Armor,
         MagicResist,
         MoveSpeed,
-        CooldownReduction
+        CooldownReduction,
+        AttackSpeed
     }
 }

@@ -28,6 +28,8 @@ namespace UnityEngine
             }
         }
 
+        public static float Distance(Vector3 a, Vector3 b) => (a - b).magnitude;
+
         public static Vector3 operator +(Vector3 a, Vector3 b) => new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
         public static Vector3 operator -(Vector3 a, Vector3 b) => new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
         public static Vector3 operator *(Vector3 a, float d) => new Vector3(a.x * d, a.y * d, a.z * d);

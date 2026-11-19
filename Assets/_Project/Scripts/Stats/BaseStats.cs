@@ -12,6 +12,7 @@ namespace Project.Stats
         [Header("Offense")]
         public float baseAttackDamage = 50f;
         public float baseAbilityPower = 0f;
+        public float baseAttackSpeed = 1f;
 
         [Header("Defense")]
         public float baseArmor = 20f;

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="*.cs" />
+    <Compile Include="../../../Assets/_Project/Scripts/**/*.cs"
+             Exclude="../../../Assets/_Project/Scripts/UI/**/*.cs" />
+    <!--
+      Excluded: real UnityEngine.UI/EventSystems/Physics are not in the shim. These stay
+      review-only (both AIs read them), the same tier as TopDownCamera in Phase 1.
+      - Scripts/UI/** : VirtualJoystick, AttackButton, SkillAimButton
+      - TargetScanner.cs, AutoAttackController.cs : Physics.OverlapSphere
+      - Bootstrap/GlobalLoader.cs : Canvas/EventSystem/SphereCollider wiring
+    -->
+    <Compile Remove="../../../Assets/_Project/Scripts/Combat/TargetScanner.cs" />
+    <Compile Remove="../../../Assets/_Project/Scripts/Character/AutoAttackController.cs" />
+    <Compile Remove="../../../Assets/_Project/Scripts/Bootstrap/GlobalLoader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Shim/UnitySdkShim.csproj" />
+  </ItemGroup>
+</Project>

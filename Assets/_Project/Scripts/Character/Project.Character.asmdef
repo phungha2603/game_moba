@@ -4,7 +4,8 @@
     "references": [
         "Project.Shared",
         "Project.Core",
-        "Project.Stats"
+        "Project.Stats",
+        "Project.Combat"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

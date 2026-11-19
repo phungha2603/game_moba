@@ -6,7 +6,9 @@
         "Project.Core",
         "Project.Stats",
         "Project.Character",
-        "Project.CameraSystem"
+        "Project.CameraSystem",
+        "Project.Combat",
+        "Project.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
